@@ -1,6 +1,5 @@
-
-import './App.css';
-import TTT from './TTT/TTT';
+import "./App.css";
+import TTT from "./Components/TTT";
 
 function App() {
   return (
