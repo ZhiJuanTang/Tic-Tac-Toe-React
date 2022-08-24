@@ -1,0 +1,28 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+table td {
+  border: 1px solid rgb(232, 33, 33);
+  width: 100px;
+  height: 100px;
+  background-color: rgb(25, 243, 83);
+  color: rgb(246, 23, 23);
+  font-weight: 800;
+  font-size: xx-large;
+}
+
+p {
+  display: flex;
+  flex-direction: column;
+}
+
+button {
+   background-color:  yellow;
+}
+
+h2 {
+    color: brown;
+}

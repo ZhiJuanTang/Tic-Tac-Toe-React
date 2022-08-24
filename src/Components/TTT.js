@@ -1,12 +1,19 @@
 import React, { useState } from "react";
+import Header from "./Header";
 import "./TTT.css";
 
 const TTT = () => {
-  const [turn, setTurn] = useState("x");
+  const [turn, setTurn] = useState("X");
   const [cells, setCells] = useState(Array(9).fill(""));
   const [winner, setWinner] = useState();
 
-  const checkForWinner = (squares) => {
+  const handleRestart = () => {
+    setCells(Array(9).fill(""));
+    setWinner(null);
+    setTurn("X");
+  };
+
+  const checkForWinner = (cells) => {
     let lines = [
       [0, 1, 2],
       [3, 4, 5],
@@ -19,55 +26,56 @@ const TTT = () => {
     ];
 
     lines.forEach((element) => {
-      console.log(element);
+      // console.log(element);
       if (
-        squares[element[0]] === "" ||
-        squares[element[1]] === "" ||
-        squares[element[2]] === ""
+        cells[element[0]] === "" ||
+        cells[element[1]] === "" ||
+        cells[element[2]] === ""
       ) {
         //do nothing
       } else if (
-        squares[element[0]] === squares[element[1]] &&
-        squares[element[0]] === squares[element[2]]
+        cells[element[0]] === cells[element[1]] &&
+        cells[element[0]] === cells[element[2]]
       ) {
-        setWinner(squares[element[0]]);
+        setWinner(cells[element[0]]);
+        setTurn("");
       }
     });
   };
 
   const handleClick = (num) => {
+    //make sure can't click the cell which has already X/O there
     if (cells[num] !== "") {
       alert("Already clicked");
       return;
     }
-    const squares = [...cells];
 
-    if (turn === "x") {
-      squares[num] = "x";
-      setTurn("o");
-    } else {
-      squares[num] = "0";
-      setTurn("x");
+    // when winner is found, then stop the game
+    if (winner) {
+      alert("Game over!");
+      return;
     }
 
-    checkForWinner(squares);
-    setCells(squares);
+    if (turn === "X") {
+      cells[num] = "X";
+      setTurn("O");
+    } else {
+      cells[num] = "0";
+      setTurn("X");
+    }
+
+    checkForWinner(cells);
+    setCells(cells);
   };
 
-  const Cell = ({ num }) => {
-    return <td onClick={() => handleClick(num)}>{cells[num]}</td>;
-  };
+  const Cell = ({ num }) => (
+    <td onClick={() => handleClick(num)}>{cells[num]}</td>
+  );
 
   return (
     <div className="container">
+      <Header winner={winner} turn={turn} onClick={handleRestart} />
       <table>
-        Turn: {turn}
-        {winner && (
-          <>
-            <p>{winner} is the winner!</p>
-            <button></button>
-          </>
-        )}
         <tbody>
           <tr>
             <Cell num={0} />
